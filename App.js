@@ -1,20 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useFonts, Lato_300Light, Lato_400Regular, Lato_900Black } from '@expo-google-fonts/lato' ; 
+import { StyleSheet, Text, View, Button } from 'react-native';
 import Logo from './components/Logo';
+import Cadastro from './components/Cadastro';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function App() {
-  let [fontsLoaded] = useFonts({
-    'Lato_900Black': require('./assets/fonts/Lato Black.ttf'),
-    'Lato_Light': require('./assets/fonts/Lato-Thin.ttf')
-  });
-
+function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Logo />
+      <Button 
+        title="Cadastre-se"
+        onPress={() => navigation.navigate('Cadastro')}
+      />
       <StatusBar style="auto" />
     </View>
+  );
+}
+
+const Stack = createStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Cadastro" component={Cadastro} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
