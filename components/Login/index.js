@@ -26,7 +26,8 @@ export default function Login({ navigation }) {
     console.log(payload);
 
     axios
-      .post("http://192.168.1.3:5000/api/usuarios/login", payload)
+      // .post("http://192.168.1.3:5000/api/usuarios/login", payload)
+      .post("http://192.168.2.137:5000/api/usuarios/login", payload)
       .then((response) => {
         if (response.status === 200) {
           console.log("Ta on, ta em casa");
