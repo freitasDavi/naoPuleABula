@@ -1,9 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, SafeAreaView } from "react-native";
 import AppLoading from "expo-app-loading";
 import Logo from "./components/Logo";
 import Cadastro from "./components/Cadastro";
+import Login from "./components/Login";
+import HomePage from "./components/HomePage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
@@ -79,6 +81,7 @@ function HomeScreen({ navigation }) {
             title="Cadastre-se"
             onPress={() => navigation.navigate("Cadastro")}
           />
+          <Button title="LOGIN" onPress={() => navigation.navigate("Login")} />
           <StatusBar style="auto" />
         </View>
       </PaperProvider>
@@ -94,6 +97,8 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Cadastro" component={Cadastro} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="HomePage" component={HomePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
