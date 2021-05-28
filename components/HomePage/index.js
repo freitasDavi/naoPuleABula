@@ -1,5 +1,6 @@
-import React from "react";
-import { View, Text, TouchableOpacity, Button } from "react-native";
+import React, { useState } from "react";
+import { View, TouchableOpacity, Button, FlatList } from "react-native";
+import { Text, Searchbar } from 'react-native-paper';
 import { Controller, useForm } from 'react-hook-form';
 import { logout } from "../../services/auth";
 import axios from 'axios';
@@ -8,6 +9,8 @@ import Input from "../Form/Input";
 
 export default function HomePage({ navigation }) {
   const { control, formState: { errors }, register, getValues } = useForm();
+  const [input, setInput] = useState("");
+  const [results, setResults] = useState([]);
 
   const onClickLogout = () => {
     console.log("entrou");
@@ -15,6 +18,17 @@ export default function HomePage({ navigation }) {
     navigation.navigate("Home");
     console.log("saiu");
   };
+
+  async function fetchData(text) {
+    const search = text;
+  
+    await axios.post("http://192.168.2.137:5000/api/bulas/find", search)
+                                .then((response) => {
+                                  console.log(response);
+                                  setResults(response);
+                                })
+                                .catch((err) => console.log(err));
+  }
 
   const potato = () => {
     let x = getValues();
@@ -47,7 +61,7 @@ export default function HomePage({ navigation }) {
         accessibilityLabel="Learn more about this purple button"
       />
 
-      <Controller 
+      {/* <Controller 
         defaultValue=""
         name="search"
         control={control}
@@ -62,8 +76,18 @@ export default function HomePage({ navigation }) {
             placeholder="Digite sua pesquisa"
           />
         )}
-      />
+      /> */}
 
+      <Searchbar placeholder="Digite sua pesquisa" onChangeText={(text) => {
+        fetchData();
+        setInput(text);}} value={input} />
+      <FlatList data={results} renderItem={({ item }) => (
+        <View>
+          <Text>{item.nome_usuario}</Text>
+        </View>
+      )}
+        keyExtractor={(item) => "" + item.id}   
+      />
 
     </View>
   );
