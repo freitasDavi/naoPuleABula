@@ -1,7 +1,14 @@
 import React from "react";
 import Button from "../Form/Button";
 import Input from "../Form/Input";
-import { Text, View, SafeAreaView, Alert } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import Logo from "../Logo";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
@@ -26,8 +33,8 @@ export default function Login({ navigation }) {
     console.log(payload);
 
     axios
-      // .post("http://192.168.1.3:5000/api/usuarios/login", payload)
-      .post("http://192.168.2.137:5000/api/usuarios/login", payload)
+      // .post("http://192.168.2.137:5000/api/usuarios/login", payload)
+      .post("http://192.168.1.5:5000/api/usuarios/login", payload)
       .then((response) => {
         if (response.status === 200) {
           console.log("Ta on, ta em casa");
@@ -43,57 +50,123 @@ export default function Login({ navigation }) {
 
   return (
     <SafeAreaView>
-      <View>
-        <Logo />
-        <Text>Email</Text>
-        <Controller
-          defaultValue=""
-          name="email"
-          control={control}
-          rules={{
-            required: {
-              value: true,
-              message: "Insira um email para fazer login",
-            },
-          }}
-          render={({ field: { onChange, value } }) => (
-            <Input
-              onChangeText={(text) => onChange(text)}
-              value={value}
-              error={errors.email}
-              errorText={errors?.email?.message}
-              placeholder="Email"
-            />
-          )}
-        />
-        <Text>Senha</Text>
-        <Controller
-          defaultValue=""
-          name="senha"
-          control={control}
-          rules={{
-            required: {
-              value: true,
-              message: "Insira sua senha para fazer login",
-            },
-          }}
-          render={({ field: { onChange, value } }) => (
-            <Input
-              onChangeText={(text) => onChange(text)}
-              value={value}
-              error={errors.senha}
-              errorText={errors?.senha?.message}
-              placeholder="Senha"
-            />
-          )}
-        />
+      <View style={styles.container}>
+        <Logo style={styles.logo} />
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>E-mail</Text>
+          <Controller
+            defaultValue=""
+            name="email"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Insira um email para fazer login",
+              },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                onChangeText={(text) => onChange(text)}
+                value={value}
+                error={errors.email}
+                errorText={errors?.email?.message}
+                placeholder="Email"
+              />
+            )}
+          />
+        </View>
+        <View style={styles.inputContainer2}>
+          <Text style={styles.label}>Senha</Text>
+          <Controller
+            defaultValue=""
+            name="senha"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Insira sua senha para fazer login",
+              },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                onChangeText={(text) => onChange(text)}
+                value={value}
+                error={errors.senha}
+                errorText={errors?.senha?.message}
+                placeholder="Senha"
+              />
+            )}
+          />
+        </View>
 
-        <Button onPress={handleSubmit(onSubmit)} label="Login" />
-        {/* <Button
-        title="Cadastre-se"
-        onPress={() => navigation.navigate("Cadastro")}
-      /> */}
+        <View style={styles.buttonBox}>
+          <TouchableOpacity
+            onPress={handleSubmit(onSubmit)}
+            style={styles.buttonLogin}
+          >
+            <Text style={styles.buttonLoginText}>ENTRAR</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonBox2}>
+          <Text style={{ fontSize: 16 }}>Não possui uma conta?</Text>
+          <Button
+            style={{ marginTop: 10, fontFamily: "Lato_700Bold" }}
+            label="Cadastre-se"
+            onPress={() => navigation.navigate("Cadastro")}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 100,
+  },
+
+  logo: {
+    marginBottom: 30,
+  },
+
+  inputContainer: {
+    marginTop: 40,
+    paddingHorizontal: 20,
+  },
+
+  inputContainer2: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+
+  label: {
+    color: "#318450",
+    fontSize: 16,
+    fontFamily: "Lato_700Bold",
+  },
+
+  buttonBox: {
+    marginTop: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  buttonBox2: {
+    marginTop: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  buttonLogin: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#318450",
+    padding: 10,
+    width: 180,
+    borderRadius: 4,
+  },
+
+  buttonLoginText: {
+    color: "#fff",
+  },
+});

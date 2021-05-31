@@ -8,7 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export default function Cadastro() {
+export default function Cadastro({ navigation }) {
   const {
     handleSubmit,
     control,
@@ -32,7 +32,7 @@ export default function Cadastro() {
     // let content = JSON.stringify(payload);
 
     axios
-      .post("http://192.168.1.3:5000/api/usuarios", payload)
+      .post("http://192.168.1.5:5000/api/usuarios", payload)
       .then((response) => {
         if (response.status === 200) {
           console.log("tu é bom demais maluco");

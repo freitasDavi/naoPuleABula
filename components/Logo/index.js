@@ -4,12 +4,14 @@ import { StyleSheet, Text, View } from "react-native";
 import {
   useFonts,
   Lato_300Light,
+  Lato_700Bold,
   Lato_900Black,
 } from "@expo-google-fonts/lato";
 
 export default function Logo() {
   let [fontsLoaded] = useFonts({
     Lato_900Black,
+    Lato_700Bold,
     Lato_300Light,
   });
 
@@ -30,10 +32,11 @@ export default function Logo() {
 const styles = StyleSheet.create({
   horizontalContainer: {
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   container: {
-    flex: 1,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
