@@ -32,7 +32,7 @@ export default function Cadastro({ navigation }) {
     // let content = JSON.stringify(payload);
 
     axios
-      .post("http://192.168.1.5:5000/api/usuarios", payload)
+      .post("https://api-npab.herokuapp.com/api/usuarios", payload)
       .then((response) => {
         if (response.status === 200) {
           console.log("tu é bom demais maluco");

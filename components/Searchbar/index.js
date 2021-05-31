@@ -14,10 +14,11 @@ export default function Searchbar() {
         search: text,
       },
       uriCasa = "http://192.168.1.5:5000/api/bulas/find",
-      uriJob = "http://192.168.2.137:5000/api/bulas/find";
+      uriJob = "http://192.168.2.137:5000/api/bulas/find",
+      uriFinal = "https://api-npab.herokuapp.com/api/bulas/find";
 
     await axios
-      .post(uriCasa, payload)
+      .post(uriFinal, payload)
       .then((response) => {
         setResults(response.data);
       })
