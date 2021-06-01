@@ -1,10 +1,13 @@
 import React from "react";
-import { View, Button } from "react-native";
+import { View, Button, Modal, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import { logout } from "../../services/auth";
 import SearchBar from "../Searchbar";
+import Scanner from '../Scanner';
 
 export default function HomePage({ navigation }) {
+  const [modalVisibile, setModalVisible] = React.useState(false);
+
   const onClickLogout = () => {
     console.log("entrou");
     logout();
@@ -21,6 +24,33 @@ export default function HomePage({ navigation }) {
         accessibilityLabel="Logout"
       /> */}
       <SearchBar/>
+      <Modal
+        visible={modalVisibile}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}>
+          <View style={styles.modal}>
+          <Scanner />
+          <Button title="Fechar modal" onPress={() => setModalVisible(false) }/>
+          </View>
+      </Modal>
+      <Button title="Escanear código de barras" onPress={() => setModalVisible(true)} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
+  modal: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-around",
+    backgroundColor: "lightgrey",
+  }
+})
