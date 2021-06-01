@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../Form/Button";
 import Input from "../Form/Input";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 
@@ -16,8 +16,6 @@ export default function Cadastro({ navigation }) {
   } = useForm();
 
   const onSubmit = (data) => {
-    // console.log(data);
-
     let payload = {
       nome_usuario: data.name,
       email_usuario: data.email,
@@ -27,10 +25,6 @@ export default function Cadastro({ navigation }) {
       nascimento_usuario: "1998-08-09",
     };
 
-    console.log("VAI TOMAR NO CU");
-
-    // let content = JSON.stringify(payload);
-
     axios
       .post("https://api-npab.herokuapp.com/api/usuarios", payload)
       .then((response) => {
@@ -38,87 +32,194 @@ export default function Cadastro({ navigation }) {
           console.log("tu é bom demais maluco");
         }
       });
-
-    console.log("VAI TOMAR NO CU");
   };
 
   return (
-    <View>
-      <Text>Teste de navegação</Text>
-      <Controller
-        defaultValue=""
-        name="name"
-        control={control}
-        rules={{
-          required: { value: true, message: "Name is required" },
-        }}
-        render={({ field: { onChange, value } }) => (
-          <Input
-            onChangeText={(text) => onChange(text)}
-            value={value}
-            error={errors.name}
-            errorText={errors?.name?.message}
-            placeholder="Name"
-          />
-        )}
-      />
+    <ScrollView>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Nome: </Text>
+        <Controller
+          defaultValue=""
+          name="name"
+          control={control}
+          rules={{
+            required: { value: true, message: "Name is required" },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.name}
+              errorText={errors?.name?.message}
+              placeholder="Digite aqui seu nome"
+            />
+          )}
+        />
+      </View>
 
-      <Controller
-        defaultValue=""
-        name="email"
-        control={control}
-        rules={{
-          required: { value: true, message: "Email is required" },
-          pattern: {
-            value: EMAIL_REGEX,
-            message: "Not a valid email",
-          },
-        }}
-        render={({ field: { onChange, value } }) => (
-          <Input
-            onChangeText={(text) => onChange(text)}
-            value={value}
-            error={errors.email}
-            errorText={errors?.email?.message}
-            placeholder="Email"
-          />
-        )}
-      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Sobrenome: </Text>
+        <Controller
+          defaultValue=""
+          name="sobrenome"
+          control={control}
+          rules={{
+            required: { value: true, message: "Sobrenome é necessário" },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.sobrenome}
+              errorText={errors?.sobrenome?.message}
+              placeholder="Digite aqui seu sobrenome"
+            />
+          )}
+        />
+      </View>
 
-      <Controller
-        defaultValue=""
-        name="senha"
-        control={control}
-        rules={{
-          required: { value: true, message: "Password is required" },
-        }}
-        render={({ field: { onChange, value } }) => (
-          <Input
-            onChangeText={(text) => onChange(text)}
-            value={value}
-            error={errors.senha}
-            errorText={errors?.senha?.message}
-            placeholder="senha"
-          />
-        )}
-      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>E-mail: </Text>
+        <Controller
+          defaultValue=""
+          name="email"
+          control={control}
+          rules={{
+            required: { value: true, message: "Email é obrigatório" },
+            pattern: {
+              value: EMAIL_REGEX,
+              message: "Not a valid email",
+            },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.email}
+              errorText={errors?.email?.message}
+              placeholder="exemplo@exemplo.com"
+            />
+          )}
+        />
+      </View>
 
-      <Controller
-        defaultValue=""
-        name="alergia"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <Input
-            onChangeText={(text) => onChange(text)}
-            value={value}
-            error={errors.alergia}
-            errorText={errors?.alergia?.message}
-            placeholder="alergia"
-          />
-        )}
-      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Senha: </Text>
+
+        <Controller
+          defaultValue=""
+          name="senha"
+          control={control}
+          rules={{
+            required: { value: true, message: "Password is required" },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.senha}
+              errorText={errors?.senha?.message}
+              placeholder="senha"
+            />
+          )}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Confirme sua senha: </Text>
+
+        <Controller
+          defaultValue=""
+          name="senhaConfirm"
+          control={control}
+          rules={{
+            required: { value: true, message: "As senhas devem ser iguais" },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.senhaConfirm}
+              errorText={errors?.senhaConfirm?.message}
+              placeholder="Digite sua senha novamente"
+            />
+          )}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Data de nscimento:</Text>
+
+        <Controller
+          defaultValue=""
+          name="nascimento"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.nascimento}
+              errorText={errors?.nascimento?.message}
+              placeholder="00/00/0000"
+            />
+          )}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Medicamentos que faz uso contínuo:</Text>
+
+        <Controller
+          defaultValue=""
+          name="medicamentos"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.medicamentos}
+              errorText={errors?.medicamentos?.message}
+              placeholder="Digite aqui os medicamentos"
+            />
+          )}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>
+          Descreva suas alergias e intolerâncias:
+        </Text>
+
+        <Controller
+          defaultValue=""
+          name="alergia"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={(text) => onChange(text)}
+              value={value}
+              error={errors.alergia}
+              errorText={errors?.alergia?.message}
+              placeholder="Exemplo: Lactose, Dipirona...."
+            />
+          )}
+        />
+      </View>
 
       <Button onPress={handleSubmit(onSubmit)} label="Cadastrar" />
-    </View>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+
+  label: {
+    color: "#005A3B",
+    fontSize: 17,
+    fontFamily: "Lato_700Bold",
+  },
+});
