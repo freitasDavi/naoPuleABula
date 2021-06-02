@@ -3,10 +3,12 @@ import { View, Button, Modal, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import { logout } from "../../services/auth";
 import SearchBar from "../Searchbar";
-import Scanner from '../Scanner';
+import Scanner from "../Scanner";
 
 export default function HomePage({ navigation }) {
   const [modalVisibile, setModalVisible] = React.useState(false);
+  const [type, setType] = React.useState();
+  const [data, setData] = React.useState();
 
   const onClickLogout = () => {
     console.log("entrou");
@@ -15,26 +17,39 @@ export default function HomePage({ navigation }) {
     console.log("saiu");
   };
 
+  const onCodeScanned = (type, data) => {
+    setType(type);
+    setData(data);
+    setModalVisible(false);
+  };
+
   return (
-    <View style={{ marginTop: 40, backgroundColor: "#FCFCFC"}}>
+    <View style={{ marginTop: 40, backgroundColor: "#FCFCFC" }}>
       {/* <Button
         onPress={onClickLogout}
         title="Learn More"
         color="#841584"
         accessibilityLabel="Logout"
       /> */}
-      <SearchBar/>
+      <SearchBar />
       <Modal
         visible={modalVisibile}
         transparent={true}
         animationType="fade"
-        onRequestClose={() => setModalVisible(false)}>
-          <View style={styles.modal}>
-          <Scanner />
-          <Button title="Fechar modal" onPress={() => setModalVisible(false) }/>
-          </View>
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modal}>
+          <Scanner onCodeScanned={onCodeScanned} />
+          <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+        </View>
       </Modal>
-      <Button title="Escanear código de barras" onPress={() => setModalVisible(true)} />
+
+      <Text>Type: {type}</Text>
+      <Text>Data: {data}</Text>
+      <Button
+        title="Escanear código de barras"
+        onPress={() => setModalVisible(true)}
+      />
     </View>
   );
 }
@@ -44,7 +59,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   modal: {
@@ -52,5 +67,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: "lightgrey",
-  }
-})
+  },
+});

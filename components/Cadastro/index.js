@@ -4,11 +4,14 @@ import Input from "../Form/Input";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
+import { AuthContext } from "../../services/context";
 
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function Cadastro({ navigation }) {
+  const { signUp } = React.useContext(AuthContext);
+
   const {
     handleSubmit,
     control,
@@ -30,6 +33,7 @@ export default function Cadastro({ navigation }) {
       .then((response) => {
         if (response.status === 200) {
           console.log("tu é bom demais maluco");
+          signUp();
         }
       });
   };

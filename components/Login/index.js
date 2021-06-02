@@ -12,12 +12,14 @@ import {
 import Logo from "../Logo";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
+import { AuthContext } from "../../services/context";
 import { login, setIdUsuario, setNomeUsuario } from "../../services/auth";
 
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function Login({ navigation }) {
+  const { signIn } = React.useContext(AuthContext);
   const {
     handleSubmit,
     control,
@@ -33,12 +35,12 @@ export default function Login({ navigation }) {
     console.log(payload);
 
     axios
-      // .post("http://192.168.2.137:5000/api/usuarios/login", payload)
       .post("https://api-npab.herokuapp.com/api/usuarios/login", payload)
       .then((response) => {
         if (response.status === 200) {
           console.log("Ta on, ta em casa");
           login(response.data.token);
+          signIn(response.data.token);
           setIdUsuario(response.data.id_client);
           setNomeUsuario(response.data.user_name);
           navigation.navigate("HomePage");
